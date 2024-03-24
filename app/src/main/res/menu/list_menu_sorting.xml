@@ -11,4 +11,11 @@
             android:id="@+id/sort_to_latest_first"
             android:title="@string/old_to_new" />
     </group>
+
+    <!-- action button for refresh -->
+    <item android:title="@string/refresh"
+        android:id="@+id/refresh"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/icon_refresh"/>
 </menu>

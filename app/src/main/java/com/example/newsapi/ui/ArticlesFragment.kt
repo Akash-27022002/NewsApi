@@ -1,8 +1,10 @@
 package com.example.newsapi.ui
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
@@ -12,17 +14,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsapi.MainActivity
 import com.example.newsapi.R
 import com.example.newsapi.data.Sorting
 import com.example.newsapi.databinding.FragmentArticlesBinding
 import com.example.newsapi.viewModels.NewsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ArticlesFragment : Fragment() {
     private lateinit var binding : FragmentArticlesBinding
+    private lateinit var activity: MainActivity
     private val viewModel by lazy {
         ViewModelProvider(requireActivity())[NewsViewModel::class.java]
     }
-
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -99,6 +105,24 @@ class ArticlesFragment : Fragment() {
             setHasFixedSize(true)
         }
 
+        viewModel.error.observe(viewLifecycleOwner){
+            binding.loadingProgressBar.visibility = View.GONE
+            binding.articles.visibility = View.GONE
+            binding.errorMessage.visibility = View.VISIBLE
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner){isLoading->
+            if (isLoading){
+                binding.loadingProgressBar.visibility = View.VISIBLE
+                binding.articles.visibility = View.GONE
+                binding.errorMessage.visibility = View.GONE
+            }else{
+                binding.loadingProgressBar.visibility = View.GONE
+                binding.articles.visibility = View.VISIBLE
+                binding.errorMessage.visibility = View.GONE
+            }
+        }
+
         /**
          *  [viewModel.sorting] here we observing that if the sorting will change we will sort the
          *  list accordingly and submit it again to the ListAdapter with the selected sorted manner
@@ -107,18 +131,8 @@ class ArticlesFragment : Fragment() {
          * */
 
         viewModel.sorting.observe(viewLifecycleOwner){sorting->
-            val sortedArticles = when (sorting) {
-                Sorting.Ace -> {
-                    viewModel.articles.value?.sortedBy { it.publishedAt }
-                }
-                else -> {
-                    viewModel.articles.value?.sortedByDescending { it.publishedAt }
-                }
-            }
-            // Update the list with sorted articles and notify the adapter
-            sortedArticles?.let {
-                (articles.adapter as? ArticlesAdapter)?.submitList(it)
-            }
+            binding.errorMessage.visibility = View.GONE
+            (articles.adapter as ArticlesAdapter).submitList(activity.shortArticle(sorting))
         }
 
         /**
@@ -126,7 +140,6 @@ class ArticlesFragment : Fragment() {
          *  with the articles list we will submit it again to the list Adapter with changes in the List
          * */
         viewModel.articles.observe(viewLifecycleOwner){
-
             (articles.adapter as ArticlesAdapter).submitList(it)
         }
         return binding.root
@@ -148,8 +161,22 @@ class ArticlesFragment : Fragment() {
                 item.isChecked = true
                 true
             }
+            R.id.refresh ->{
+                handleRefresh()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = requireActivity() as MainActivity
+    }
+
+    private fun handleRefresh() {
+        activity.getArticles()
+        viewModel.shortArticle(Sorting.Ace)
     }
 
 

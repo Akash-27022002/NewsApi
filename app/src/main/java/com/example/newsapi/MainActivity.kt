@@ -17,7 +17,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
+import com.example.newsapi.data.Article
+import com.example.newsapi.data.Sorting
 import com.example.newsapi.databinding.ActivityMainBinding
+import com.example.newsapi.ui.ArticlesAdapter
 import com.example.newsapi.utils.PreferenceManager
 import com.example.newsapi.viewModels.NewsViewModel
 import com.example.newsapi.ui.ArticlesFragment
@@ -116,6 +119,22 @@ class MainActivity : AppCompatActivity() {
          * here we call our Articles for first time that can be used listed in the list in Articles Fragment
          * */
 
+       getArticles()
+    }
+
+    fun shortArticle(sorting:Sorting): List<Article>? {
+        return when (sorting) {
+            Sorting.Ace -> {
+                viewModel.articles.value?.sortedBy { it.publishedAt }
+            }
+            else -> {
+                viewModel.articles.value?.sortedByDescending { it.publishedAt }
+            }
+        }
+
+    }
+
+    fun getArticles() {
         coroutines.launch {
             viewModel.getNewsList()
         }

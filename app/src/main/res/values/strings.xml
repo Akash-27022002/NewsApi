@@ -9,4 +9,6 @@
     <string name="published_at">Published At : %s</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="source_s">Source : %s</string>
+    <string name="error_message">Please try Again \n We are facing issue in Loading Articles</string>
+    <string name="refresh">Refresh</string>
 </resources>

@@ -25,8 +25,8 @@ import com.example.newsapi.utils.services.ApiService
  * */
 
 class NewsViewModel:ViewModel() {
-    private val _articles = MutableLiveData<List<Article>>()
-    val articles : LiveData<List<Article>>
+    private val _articles = MutableLiveData<List<Article>?>()
+    val articles : LiveData<List<Article>?>
         get() = _articles
 
     private val _error = MutableLiveData<String>()
@@ -52,6 +52,7 @@ class NewsViewModel:ViewModel() {
             }
         }catch (e : Exception){
             _error.postValue(e.message)
+            _articles.postValue(null)
         }finally {
             _loading.postValue(false)
         }
