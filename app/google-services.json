@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "57749777386",
+    "project_id": "fcmpushnotification-5ee19",
+    "storage_bucket": "fcmpushnotification-5ee19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57749777386:android:82b187b45fd30576102093",
+        "android_client_info": {
+          "package_name": "com.example.newsapi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMprLwaLysAJghGuh2DbsKLtvrNr7voIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
