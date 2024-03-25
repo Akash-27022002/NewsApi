@@ -1,6 +1,43 @@
 # News Api App
 
-Welcome to the News API app! Here are some screenshots:
+Welcome to the News API app! This app allows you to fetch and browse news articles from various sources.
+
+## Steps to Run the Application
+
+### Step 1: Download APK
+- Download the APK file from the provided [Google Drive link](https://drive.google.com/file/d/1gsuYYQC-ijkDiyHoMbAWs3HH9_hzzwnA/view?usp=sharing).
+
+### Step 2: Clone Repository
+- Open your terminal or command prompt.
+- Clone the repository using the following command:
+- cmd> git clone https://github.com/Akash-27022002/NewsApi.git
+
+
+### Step 3: Switch to Master Branch
+- Navigate into the cloned directory:
+- Switch to the master branch:
+- cmd > git checkout master
+
+
+### Step 4: Open Project in Android Studio
+- Open Android Studio.
+- Choose "Open an existing Android Studio project".
+- Navigate to the directory where you cloned the repository and select it.
+
+### Step 5: Run the Project
+- Connect your Android device to your computer using a USB cable.
+- Wait for Android Studio to recognize your device.
+- Click on the "Run" button in Android Studio to build and run the application on your connected device.
+
+### Step 6: Test the Application
+- Once the application is installed on your device, you can launch it from the app drawer.
+- Explore the features of the application as described in the README.md file.
+- Test functionalities such as dark mode, article fetching, sorting, refreshing, and error handling.
+
+By following these steps, you should be able to download, clone, and run the News API application on your Android device. If you encounter any issues, feel free to ask for further assistance.
+
+
+## Here are some screenshots:
 
 <div style="display:flex; flex-direction:row;">
   <img src="images/image_darkmode.jpg" alt="Dark Mode Screenshot" width="150px" height="300px" />
@@ -53,6 +90,15 @@ In developing this News API app, several assumptions were made:
 ### Dark Mode
 - Implemented a switch button in the drawer layout to enable and disable dark mode.
 - Users can open and close the drawer layout via the toolbar.
+- 
+### Architecture
+- Followed the MVVM (Model-View-ViewModel) architecture pattern for better code organization and separation of concerns.
+
+### Theme Storage
+- Used Preferences to store the theme settings, allowing users to select and persist their preferred theme.
+
+### Notification Permissions
+- Implemented notification feature requires user permission to show notifications.
 
 ### Future Scope
 - Implementation of bookmarking feature.
