@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:paddingStart="3dp"
     android:paddingEnd="5dp"
-    android:paddingBottom="2dp"
+    android:paddingBottom="5dp"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -70,5 +70,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

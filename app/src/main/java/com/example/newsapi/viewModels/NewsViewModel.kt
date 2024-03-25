@@ -52,7 +52,7 @@ class NewsViewModel:ViewModel() {
             }
         }catch (e : Exception){
             _error.postValue(e.message)
-            _articles.postValue(null)
+//            _articles.postValue(null)
         }finally {
             _loading.postValue(false)
         }

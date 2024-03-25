@@ -4,14 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapi.MainActivity
@@ -19,9 +18,8 @@ import com.example.newsapi.R
 import com.example.newsapi.data.Sorting
 import com.example.newsapi.databinding.FragmentArticlesBinding
 import com.example.newsapi.viewModels.NewsViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsIntent.Builder
 
 class ArticlesFragment : Fragment() {
     private lateinit var binding : FragmentArticlesBinding
@@ -91,17 +89,22 @@ class ArticlesFragment : Fragment() {
              * THis is simple callback or listener that we make in Article Adapter so
              * whatever the news Article can be tapped we are able to get i and transfer it to the
              * web browser for the further reading of article
+             *  [loadCustomTab] will help us load Web Url in our application
              * */
-            val urlIntent = Intent(
-                Intent.ACTION_VIEW,
-                Uri.parse(it.url)
-            )
-            startActivity(urlIntent)
+
+            loadCustomTab(it.url)
+//            val urlIntent = Intent(
+//                Intent.ACTION_VIEW,
+//                Uri.parse(it.url)
+//            )
+//            startActivity(urlIntent)
         }
 
         val articles = binding.articles.apply {
             layoutManager = LinearLayoutManager(requireContext())
             this.adapter = adapter
+            addItemDecoration(RecyclerViewItemDecoration(requireContext(),R.drawable.list_divider))
+            //recyclerView.addItemDecoration(RecyclerViewItemDecoration(this, R.drawable.divider))
             setHasFixedSize(true)
         }
 
@@ -115,11 +118,11 @@ class ArticlesFragment : Fragment() {
             if (isLoading){
                 binding.loadingProgressBar.visibility = View.VISIBLE
                 binding.articles.visibility = View.GONE
-                binding.errorMessage.visibility = View.GONE
+//                binding.errorMessage.visibility = View.GONE
             }else{
                 binding.loadingProgressBar.visibility = View.GONE
                 binding.articles.visibility = View.VISIBLE
-                binding.errorMessage.visibility = View.GONE
+//                binding.errorMessage.visibility = View.GONE
             }
         }
 
@@ -140,6 +143,7 @@ class ArticlesFragment : Fragment() {
          *  with the articles list we will submit it again to the list Adapter with changes in the List
          * */
         viewModel.articles.observe(viewLifecycleOwner){
+             binding.errorMessage.visibility = View.GONE
             (articles.adapter as ArticlesAdapter).submitList(it)
         }
         return binding.root
@@ -177,6 +181,15 @@ class ArticlesFragment : Fragment() {
     private fun handleRefresh() {
         activity.getArticles()
         viewModel.shortArticle(Sorting.Ace)
+    }
+
+
+    private fun loadCustomTab(url: String) {
+        val builder = Builder()
+        val customTabsIntent: CustomTabsIntent = builder.build()
+        customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        customTabsIntent.launchUrl(requireContext(), Uri.parse(url))
     }
 
 
