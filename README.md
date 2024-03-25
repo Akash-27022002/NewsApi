@@ -2,4 +2,4 @@
 
 Welcome to my awesome app! Here are some screenshots:
 
-![images/image_darkmode.jpg](https://github.com/Akash-27022002/NewsApi/blob/master/images/image_darkmode.jpg)
+<img src="https://github.com/Akash-27022002/NewsApi/blob/master/images/image_darkmode.jpg" alt="Dark Mode Screenshot" width="300px" />
